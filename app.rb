@@ -91,8 +91,8 @@ directories = [
   def clean_handler(dir, exe) 
     # dir_handler(dir)
     get_all_files.each do |file|
-      # clean_move(file.to_s)
-      puts file
+      clean_move(file.to_s)
+      # puts file
     end
   end
 
