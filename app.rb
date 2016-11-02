@@ -105,8 +105,9 @@ directories = [
         mime = get_folder_from_mime(file)
         dir = get_folder(@exe ,mime)
         folder =  get_folder(@rel ,dir)
+      else
+        folder = get_folder(@rel ,dir)
       end
-      folder = get_folder(@rel ,dir)
     end 
 
     if allow_move
