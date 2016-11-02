@@ -98,9 +98,16 @@ directories = [
 
   def command_line_handler()
     path = ARGV[0]
+
+    path =  path || "here"
+
     if path.downcase == "here"
       @myPath = %x[pwd]
     else
+      unless File.exist? path
+        puts 'path is not valid!'
+        exit
+      end
       @myPath = path
     end
     clean_handler(directories, extensions)
