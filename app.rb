@@ -110,7 +110,7 @@ directories = [
       end
       @myPath = path
     end
-    clean_handler(directories, extensions)
+    clean_handler(@dir, @exe)
   end
 
   command_line_handler()
