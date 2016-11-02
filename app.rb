@@ -27,12 +27,12 @@ directories = [
   'myArchive','myOther' ]
 
   relation = {
-    myFolders: ['folder'],
+    myFolder: ['folder'],
     myOther: ['other'],
     myImage: ['image'],
     myVideo: ['video'],
     myMusic: ['audio'],
-    myCode: ['application', 'executable'],
+    myApp: ['application', 'executable'],
     myOffice: ['office'],
     myArchive: ['archive'],
   }
@@ -68,7 +68,12 @@ directories = [
     return get_abs_filename file.split(".")[-1]
   end
 
-  def get_folder(dic,el)
+  def get_folder_from_mime(file)
+    mime = %x[file -ib #{file}]
+    return mime.split(';')[0].split('/')[0]
+  end
+
+  def get_folder(dic,el, file = '')      
     dic.each do |key,value|
       value.each do |e|
         if el.to_s == e.to_s
@@ -80,9 +85,13 @@ directories = [
     return get_folder(@rel, 'other')
   end
 
+
+
   def clean_move(file)
 
     allow_move = false
+
+    folder = get_folder(@rel ,'other')
 
     if File.directory?(file)
       if !@dir.include?(get_abs_filename(file))
@@ -92,6 +101,11 @@ directories = [
     else
       allow_move = true
       dir = get_folder(@exe , get_extension(file))
+      if dir == get_folder(@rel ,'other')
+        mime = get_folder_from_mime(file)
+        dir = get_folder(@exe ,mime)
+        folder =  get_folder(@rel ,dir)
+      end
       folder = get_folder(@rel ,dir)
     end 
 
