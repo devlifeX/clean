@@ -3,10 +3,10 @@
 require 'fileutils'
 
 extensions = {
-  image: ['jpg','png'],
+  image: ['jpg','png','gif'],
   audio: ['mp3'],
   video: ['mp4', 'mkv','3gp','mpeg'],
-  office: ['xls', 'xlsx','doc','docx','ppt','pptx'],
+  office: ['xls', 'xlsx','doc','docx','ppt','pptx', 'txt', 'pdf'],
   archive: ['zip', 'tar','tar.gz','tar.bz','rar'],
   language: ['rb', 'py','php','js','css','less','sass'],
   executable: ['exe', 'sh','msi','bat'],
@@ -62,41 +62,48 @@ directories = [
 
   def get_folder(dic,el)
     dic.each do |key,value|
-     value.each do |e|
-      if el == e
-        return key
+      value.each do |e|
+        if el.to_s == e.to_s
+          return key.to_s
+        end
       end
-     end
-   end
- end
-
- def clean_move(file)
-
-  if File.directory?(file)
-    if !@dir.include?(get_abs_filename(file))
-      FileUtils.mv(file, @myPath+"myFolders")
     end
-  else
-    dir = get_folder(@exe , get_extension(file))
-    puts file
-    puts dir
-    # puts get_folder(@rel ,dir)
-    abort
-  end 
 
-end
-
-
-
-def clean_handler(dir, exe) 
-  dir_handler(dir)
-  get_all_files.each do |file|
-    clean_move(file.to_s)
+    return get_folder(@rel, 'other')
   end
-end
+
+  def clean_move(file)
+
+    if File.directory?(file)
+      if !@dir.include?(get_abs_filename(file))
+        folder = get_folder(@rel ,'other')
+      end
+    else
+      dir = get_folder(@exe , get_extension(file))
+      folder = get_folder(@rel ,dir)
+    end 
+
+    FileUtils.mv(file, @myPath + folder)
+  end
 
 
 
-# dir_handler(directories)
+  def clean_handler(dir, exe) 
+    dir_handler(dir)
+    get_all_files.each do |file|
+      clean_move(file.to_s)
+    end
+  end
 
-clean_handler(directories, extensions)
+
+  def command_line_handler()
+    path = ARGV[0]
+    if path.downcase == "here"
+      @myPath = %x[pwd]
+    else
+      @myPath = path
+    end
+    clean_handler(directories, extensions)
+  end
+
+  command_line_handler()
