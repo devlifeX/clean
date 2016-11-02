@@ -37,7 +37,7 @@ directories = [
 
   def dir_handler(dirs)
     dirs.each do |dir|
-      if !Dir.exist?(@myPath + dir.to_s)
+      if !File.exist?(@myPath + dir.to_s)
         dir_make(dir.to_s)
       end
     end
@@ -45,11 +45,11 @@ directories = [
 
 
   def dir_make(dir)
-    Dir.mkdir(@myPath +'/'+ dir)
+    Dir.mkdir(@myPath + dir)
   end
 
   def get_all_files
-    return Dir[@myPath + "/*"]
+    return Dir[@myPath + "*"]
   end
 
   def get_abs_filename(file)
@@ -74,25 +74,31 @@ directories = [
 
   def clean_move(file)
 
+    allow_move = false
+
     if File.directory?(file)
       if !@dir.include?(get_abs_filename(file))
+        allow_move = true
         folder = get_folder(@rel ,'other')
       end
     else
+      allow_move = true
       dir = get_folder(@exe , get_extension(file))
       folder = get_folder(@rel ,dir)
     end 
 
-    FileUtils.mv(file, @myPath +"/"+ folder)
+    if allow_move
+      FileUtils.mv(file, @myPath + folder)
+    end
+
   end
 
 
 
   def clean_handler(dir, exe) 
-    # dir_handler(dir)
+    dir_handler(dir)
     get_all_files.each do |file|
       clean_move(file.to_s)
-      # puts file
     end
   end
 
@@ -111,6 +117,7 @@ directories = [
       end
       @myPath = path
     end
+    @myPath += "/"
     clean_handler(@dir, @exe)
   end
 
