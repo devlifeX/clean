@@ -2,13 +2,21 @@
 
 require 'fileutils'
 
+
+# mime = [
+#   'application', 'audio',
+#  'chemical', 'font', 'image',
+#   'message', 'model', 'multipart',
+#    'text', 'video', 'conference',
+#     'shader']
+
 extensions = {
-  image: ['jpg','png','gif'],
-  audio: ['mp3'],
-  video: ['mp4', 'mkv','3gp','mpeg', 'ogv'],
-  office: ['xls', 'xlsx','doc','docx','ppt','pptx', 'txt', 'pdf','csv','tsv'],
+  image: ['jpg','png','gif', 'image','font'],
+  audio: ['mp3','audio'],
+  video: ['mp4', 'mkv','3gp','mpeg', 'ogv','video'],
+  office: ['xls','message', 'xlsx','doc','docx','ppt','pptx', 'txt', 'pdf','csv','tsv'],
   archive: ['zip', 'tar','gz','bz','rar','bz2'],
-  language: ['rb', 'py','php','js','css','less','sass','sql','html','json'],
+  application: ['rb','text','conference','shader','chemical','model','multipart', 'py','php','js','css','less','sass','sql','html','json','application'],
   executable: ['exe', 'sh','msi','bat'],
 }
 
@@ -24,7 +32,7 @@ directories = [
     myImage: ['image'],
     myVideo: ['video'],
     myMusic: ['audio'],
-    myCode: ['language', 'executable'],
+    myCode: ['application', 'executable'],
     myOffice: ['office'],
     myArchive: ['archive'],
   }
