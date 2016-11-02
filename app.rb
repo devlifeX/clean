@@ -5,10 +5,10 @@ require 'fileutils'
 extensions = {
   image: ['jpg','png','gif'],
   audio: ['mp3'],
-  video: ['mp4', 'mkv','3gp','mpeg'],
-  office: ['xls', 'xlsx','doc','docx','ppt','pptx', 'txt', 'pdf'],
-  archive: ['zip', 'tar','tar.gz','tar.bz','rar'],
-  language: ['rb', 'py','php','js','css','less','sass'],
+  video: ['mp4', 'mkv','3gp','mpeg', 'ogv'],
+  office: ['xls', 'xlsx','doc','docx','ppt','pptx', 'txt', 'pdf','csv','tsv'],
+  archive: ['zip', 'tar','gz','bz','rar','bz2'],
+  language: ['rb', 'py','php','js','css','less','sass','sql','html','json'],
   executable: ['exe', 'sh','msi','bat'],
 }
 
@@ -38,14 +38,14 @@ directories = [
   def dir_handler(dirs)
     dirs.each do |dir|
       if !File.exist?(@myPath + dir.to_s)
-        dir_make(dir.to_s)
+        dir_make(@myPath + dir.to_s)
       end
     end
   end
 
 
   def dir_make(dir)
-    Dir.mkdir(@myPath + dir)
+    Dir.mkdir(dir)
   end
 
   def get_all_files
@@ -79,7 +79,7 @@ directories = [
     if File.directory?(file)
       if !@dir.include?(get_abs_filename(file))
         allow_move = true
-        folder = get_folder(@rel ,'other')
+        folder = get_folder(@rel ,'folder')
       end
     else
       allow_move = true
