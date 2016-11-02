@@ -29,7 +29,7 @@ directories = [
     myArchive: ['archive'],
   }
 
-  @myPath = '/home/devlife/Desktop/tmp/';
+  @myPath = '';
 
   @dir = directories 
   @exe = extensions 
@@ -45,7 +45,7 @@ directories = [
 
 
   def dir_make(dir)
-    Dir.mkdir(@myPath + dir)
+    Dir.mkdir(@myPath +'/'+ dir)
   end
 
   def get_all_files
@@ -83,7 +83,7 @@ directories = [
       folder = get_folder(@rel ,dir)
     end 
 
-    FileUtils.mv(file, @myPath + folder)
+    FileUtils.mv(file, @myPath +"/"+ folder)
   end
 
 
@@ -92,6 +92,7 @@ directories = [
     dir_handler(dir)
     get_all_files.each do |file|
       clean_move(file.to_s)
+      puts file
     end
   end
 
@@ -102,7 +103,7 @@ directories = [
     path =  path || "here"
 
     if path.downcase == "here"
-      @myPath = %x[pwd]
+      @myPath = Dir.pwd
     else
       unless File.exist? path
         puts 'path is not valid!'
