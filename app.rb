@@ -23,7 +23,7 @@ extensions = {
 directories = [
   'myFolders', 'myImage', 
   'myVideo', 'myMusic', 
-  'myCode', 'myOffice',
+  'myApp', 'myOffice',
   'myArchive','myOther' ]
 
   relation = {
@@ -69,6 +69,7 @@ directories = [
   end
 
   def get_folder_from_mime(file)
+    file.gsub!(" ", "\\ ");
     mime = %x[file -ib #{file}]
     return mime.split(';')[0].split('/')[0]
   end
