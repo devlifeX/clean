@@ -49,7 +49,7 @@ directories = [
   end
 
   def get_all_files
-    return Dir[@myPath + "*"]
+    return Dir[@myPath + "/*"]
   end
 
   def get_abs_filename(file)
@@ -89,9 +89,9 @@ directories = [
 
 
   def clean_handler(dir, exe) 
-    dir_handler(dir)
+    # dir_handler(dir)
     get_all_files.each do |file|
-      clean_move(file.to_s)
+      # clean_move(file.to_s)
       puts file
     end
   end
