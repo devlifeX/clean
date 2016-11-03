@@ -118,7 +118,7 @@ directories = [
       end
 
     rescue Exception => e
-      puts e
+      puts 'File or folder exist: ' + file
     end
   end
 
