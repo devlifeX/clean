@@ -21,7 +21,7 @@ extensions = {
 }
 
 directories = [
-  'myFolders', 'myImage', 
+  'myFolder', 'myImage', 
   'myVideo', 'myMusic', 
   'myApp', 'myOffice',
   'myArchive','myOther' ]
@@ -69,8 +69,8 @@ directories = [
   end
 
   def get_folder_from_mime(file)
-    file.gsub!(" ", "\\ ");
-    mime = %x[file -ib #{file}]
+    new_file = file.gsub(" ", "\\ ");
+    mime = %x[file -ib #{new_file}]
     return mime.split(';')[0].split('/')[0]
   end
 
@@ -116,7 +116,6 @@ directories = [
     end
 
   end
-
 
 
   def clean_handler(dir, exe) 
