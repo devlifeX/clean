@@ -89,32 +89,37 @@ directories = [
 
 
   def clean_move(file)
+    begin
 
-    allow_move = false
 
-    folder = get_folder(@rel ,'other')
+      allow_move = false
 
-    if File.directory?(file)
-      if !@dir.include?(get_abs_filename(file))
-        allow_move = true
-        folder = get_folder(@rel ,'folder')
-      end
-    else
-      allow_move = true
-      dir = get_folder(@exe , get_extension(file))
-      if dir == get_folder(@rel ,'other')
-        mime = get_folder_from_mime(file)
-        dir = get_folder(@exe ,mime)
-        folder =  get_folder(@rel ,dir)
+      folder = get_folder(@rel ,'other')
+
+      if File.directory?(file)
+        if !@dir.include?(get_abs_filename(file))
+          allow_move = true
+          folder = get_folder(@rel ,'folder')
+        end
       else
-        folder = get_folder(@rel ,dir)
+        allow_move = true
+        dir = get_folder(@exe , get_extension(file))
+        if dir == get_folder(@rel ,'other')
+          mime = get_folder_from_mime(file)
+          dir = get_folder(@exe ,mime)
+          folder =  get_folder(@rel ,dir)
+        else
+          folder = get_folder(@rel ,dir)
+        end
+      end 
+
+      if allow_move
+        FileUtils.mv(file, @myPath + folder)
       end
-    end 
 
-    if allow_move
-      FileUtils.mv(file, @myPath + folder)
+    rescue Exception => e
+      puts e
     end
-
   end
 
 
